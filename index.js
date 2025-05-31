@@ -2,8 +2,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const errorHandler = require('./middleware/errorHandler');
 const taskRoutes = require('./routes/taskRoutes');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 dotenv.config();  // Load environment variables from .env file
@@ -43,4 +43,12 @@ app.use(errorHandler);
 // Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+});
+
+// Graceful shutdown on Ctrl+C or SIGINT
+process.on('SIGINT', async () => {
+  console.log('\nGracefully shutting down...');
+  await mongoose.disconnect();
+  console.log('MongoDB connection closed');
+  process.exit(0);
 });
