@@ -1,5 +1,8 @@
 // models/task.js
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();  // Load environment variables from .env file
 
 // Load offensive words from .env file and convert to lowercase array
 const offensiveWords = process.env.OFFENSIVE_WORDS
